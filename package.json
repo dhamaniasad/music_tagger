@@ -1,0 +1,22 @@
+{
+  "name": "music_tagger",
+  "version": "1.0.0",
+  "description": "Correctly tag your music files",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/dhamaniasad/music_tagger.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/dhamaniasad/music_tagger/issues"
+  },
+  "homepage": "https://github.com/dhamaniasad/music_tagger",
+  "devDependencies": {
+    "electron-prebuilt": "^0.31.2"
+  }
+}
