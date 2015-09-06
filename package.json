@@ -2,7 +2,7 @@
   "name": "music_tagger",
   "version": "1.0.0",
   "description": "Correctly tag your music files",
-  "main": "index.js",
+  "main": "main.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
