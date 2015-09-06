@@ -1,3 +1,14 @@
+body {
+    background: -webkit-linear-gradient(90deg, #136a8a 10%, #267871 90%); /* Chrome 10+, Saf5.1+ */
+    background:         linear-gradient(90deg, #136a8a 10%, #267871 90%); /* W3C */
+    color: white;
+}
+
 #infoPanel {
     padding-top: 20px;
+}
+
+#artwork {
+    width: 100px;
+    height: auto;
 }
