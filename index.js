@@ -2,11 +2,14 @@ var got = require('got');
 window.$ = window.jQuery = require('./jquery.min.js');
 
 $("#songForm").submit(function (event) {
-    alert("Handler for .submit() called.");
+    itunesFetch($('#songName').val());
     event.preventDefault();
 });
 
 
-//got('https://itunes.apple.com/search?term=rocket%20man', function (err, data, res) {
-//    document.write(data);
-//});
+function itunesFetch(data) {
+ got('https://itunes.apple.com/search?term=' + data, {json:true}, function (err, data, res) {
+    document.write(data.results[0].artistName);
+});
+}
+
