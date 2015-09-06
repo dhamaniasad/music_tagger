@@ -18,5 +18,8 @@
   "homepage": "https://github.com/dhamaniasad/music_tagger",
   "devDependencies": {
     "electron-prebuilt": "^0.31.2"
+  },
+  "dependencies": {
+    "got": "^4.1.1"
   }
 }

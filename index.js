@@ -1,5 +1,11 @@
 var app = require('app');  // Module to control application life.
 var BrowserWindow = require('browser-window');  // Module to create native browser window.
+var got = require('got');
+
+got('https://itunes.apple.com/search?term=rocket%20man', function (err, data, res) {
+    console.log(data);
+});
+
 
 // Report crashes to our server.
 require('crash-reporter').start();
