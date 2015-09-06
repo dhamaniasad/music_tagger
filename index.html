@@ -1,12 +1,14 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Hello World!</title>
+    <title>Music Tagger</title>
   </head>
   <body>
-    <h1>Hello World!</h1>
-    We are using io.js <script>document.write(process.version)</script>
-    and Electron <script>document.write(process.versions['electron'])</script>.
-  <script src="index.js"></script>
+    <h1>Enter the name of the song below</h1>
+    <form id="songForm" action="#">
+      <input type="text" id="songName">
+      <button type="submit">Submit</button>
+    </form>
+  <script type="text/javascript" src="index.js"></script>
   </body>
 </html>
