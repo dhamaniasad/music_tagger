@@ -15,13 +15,13 @@ $("#songForm").submit(function (event) {
 function itunesFetch(data) {
     got('https://itunes.apple.com/search?term=' + data, {json: true}, function (err, data, res) {
         var artworkUrl = data.results[0].artworkUrl100.replace('100x100', '150x150');
-        $('#artwork').attr('src', artworkUrl);
-        $('#song').text((data.results[0].trackName));
-        $('#genre').text((data.results[0].primaryGenreName));
-        $('#album').text((data.results[0].collectionName));
-        $('#artist').text((data.results[0].artistName));
+        $('#fetched_artwork').attr('src', artworkUrl);
+        $('#fetched_song').text((data.results[0].trackName));
+        $('#fetched_genre').text((data.results[0].primaryGenreName));
+        $('#fetched_album').text((data.results[0].collectionName));
+        $('#fetched_artist').text((data.results[0].artistName));
         var releaseDate = new Date(data.results[0].releaseDate);
-        $('#released').text(releaseDate.getFullYear());
+        $('#fetched_released').text(releaseDate.getFullYear());
     });
 }
 
@@ -73,6 +73,11 @@ function identifier(mp3Files) {
     function getMetadata (metadata) {
         if (metadata === null) {
             console.log("OMG ERROR!1!!!1!")
+            $('#song').text('---');
+            $('#genre').text('---');
+            $('#album').text('---');
+            $('#artist').text('---');
+            $('#released').text('---');
         }
     }
 }

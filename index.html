@@ -8,8 +8,6 @@
 <body>
 <div class="container">
     <div class="row">
-        <h3 class="filenameContainer">Current file is <span id="fileName"></span></h3>
-
         <form id="songForm" action="#">
             <div class="col-xs-6">
                 <input class="form-control" placeholder="Song Name" type="text" id="songName">
@@ -28,7 +26,7 @@
     </div>
     <div class="col-xs-5">
     <div id="infoPanel">
-        <h4>Current</h4>
+        <h4 id="currentHeader">Current</h4>
         <img id="artwork" src="img/placeholder-square.jpg">
 
         <p id="song">Song</p>
@@ -58,6 +56,7 @@
         <p id="fetched_released">Year</p>
     </div>
     </div>
+    <p class="filenameContainer">Current file is <span id="fileName"></span></p>
 </div>
 <div class="container-fluid">
     <div class="row" id="footer">

@@ -26,6 +26,9 @@ body {
 
 .filenameContainer {
     display: none;
+    position: absolute;
+    bottom: 60px;
+    left: 15px;
 }
 
 #dirPath {
