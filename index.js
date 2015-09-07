@@ -19,7 +19,8 @@ function itunesFetch(data) {
         $('#genre').text((data.results[0].primaryGenreName));
         $('#album').text((data.results[0].collectionName));
         $('#artist').text((data.results[0].artistName));
-        $('#released').text((data.results[0].releaseDate));
+        var releaseDate = new Date(data.results[0].releaseDate);
+        $('#released').text(releaseDate.getFullYear());
     });
 }
 
