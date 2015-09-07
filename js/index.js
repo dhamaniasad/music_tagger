@@ -1,6 +1,7 @@
 var got = require('got');
 var walk = require('walk');
 var ipc = require('ipc');
+var fs = require('fs');
 // Due to Electron being a CommonJS environment, the thing below has to be done
 // (https://github.com/atom/electron/issues/254)
 window.$ = window.jQuery = require('./js/jquery.min.js');
@@ -46,26 +47,42 @@ function walkTree(path, callback) {
     });
 }
 
-function openFolderDialog () {
+function openFolderDialog() {
     return ipc.sendSync('synchronous-message', 'openFolderDialog');
 }
 
 $('#loadFolderBtn').on('click', function () {
-   var dir = openFolderDialog();
+    var dir = openFolderDialog();
     if (dir === null) {
 
     }
     else {
         var mp3Files = walkTree(dir.toString(), countUpdater);
         $('#dirPath').text('Scanning directory for MP3 files. Please wait...');
-        function countUpdater (mp3Files) {
-            $('#dirPath').text('Loaded directory ' + dir + ' with ' + mp3Files.length + ' MP3 files.');
+        function countUpdater(mp3Files) {
+            $('#dirPath').text('Loaded ' + dir + ' with ' + mp3Files.length + ' .mp3 files');
             identifier(mp3Files);
         }
     }
 });
 
-function identifier (mp3Files) {
+function identifier(mp3Files) {
     $('.filenameContainer').css({'display': 'block'});
     $('#fileName').text(mp3Files[0]);
+    readMetadata(mp3Files[0], getMetadata);
+    function getMetadata (metadata) {
+        if (metadata === null) {
+            console.log("OMG ERROR!1!!!1!")
+        }
+    }
+}
+
+function readMetadata(fileName, callback) {
+    var mm = require('musicmetadata');
+
+// create a new parser from a node ReadStream
+    var parser = mm(fs.createReadStream(fileName), function (err, metadata) {
+        if (err) callback(null);
+        callback(metadata);
+    });
 }

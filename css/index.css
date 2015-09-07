@@ -9,7 +9,17 @@ body {
     padding-top: 20px;
 }
 
+#fetched_infoPanel {
+    padding-top: 20px;
+    text-align: right;
+}
+
 #artwork {
+    width: 150px;
+    height: auto;
+}
+
+#fetched_artwork {
     width: 150px;
     height: auto;
 }
@@ -20,4 +30,21 @@ body {
 
 #dirPath {
     display: inline-block;
+}
+
+#footer {
+    position: absolute;
+    bottom: 10px;
+    width: 100%;
+}
+
+#footer hr {
+    margin-bottom: 0;
+    padding-bottom: 12px;
+}
+
+#labelPanel {
+    padding-left: 0;
+    padding-right: 0;
+    padding-top: 209px;
 }

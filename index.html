@@ -1,38 +1,73 @@
 <!DOCTYPE html>
 <html>
-  <head>
+<head>
     <title>Music Tagger</title>
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <link rel="stylesheet" href="css/index.css">
-  </head>
-  <body>
-  <div class="container">
-    <div class="row">
-      <div class="col-xs-12">
-        <button class="btn btn-success" id="loadFolderBtn">Load Folder</button>
-        <p id="dirPath">No folder loaded yet</p>
-      </div>
-    </div>
+</head>
+<body>
+<div class="container">
     <div class="row">
         <h3 class="filenameContainer">Current file is <span id="fileName"></span></h3>
-    <form id="songForm" action="#">
-      <div class="col-xs-6">
-      <input class="form-control" placeholder="Song Name" type="text" id="songName">
-      </div>
-      <div class="col-xs-3">
-        <button class="btn btn-success" type="submit">Submit</button>
-      </div>
-    </form>
+
+        <form id="songForm" action="#">
+            <div class="col-xs-6">
+                <input class="form-control" placeholder="Song Name" type="text" id="songName">
+            </div>
+            <div class="col-xs-3">
+                <button class="btn btn-success" type="submit">Submit</button>
+            </div>
+        </form>
     </div>
+    <div id="labelPanel" class="col-xs-1">
+        <p>Song</p>
+        <p>Genre</p>
+        <p>Album</p>
+        <p>Artist</p>
+        <p>Year</p>
+    </div>
+    <div class="col-xs-5">
     <div id="infoPanel">
-      <img id="artwork" src="img/placeholder-square.jpg">
-      <p id="song">Song</p>
-      <p id="genre">Genre</p>
-      <p id="album">Album</p>
-      <p id="artist">Artist</p>
-      <p id="released">Year</p>
+        <h4>Current</h4>
+        <img id="artwork" src="img/placeholder-square.jpg">
+
+        <p id="song">Song</p>
+
+        <p id="genre">Genre</p>
+
+        <p id="album">Album</p>
+
+        <p id="artist">Artist</p>
+
+        <p id="released">Year</p>
     </div>
-  </div>
-  <script type="text/javascript" src="js/index.js"></script>
-  </body>
+    </div>
+    <div class="col-xs-5">
+    <div id="fetched_infoPanel">
+        <h4>Fetched</h4>
+        <img id="fetched_artwork" src="img/placeholder-square.jpg">
+
+        <p id="fetched_song">Song</p>
+
+        <p id="fetched_genre">Genre</p>
+
+        <p id="fetched_album">Album</p>
+
+        <p id="fetched_artist">Artist</p>
+
+        <p id="fetched_released">Year</p>
+    </div>
+    </div>
+</div>
+<div class="container-fluid">
+    <div class="row" id="footer">
+        <hr>
+        <div class="col-xs-12">
+            <button class="btn btn-success" id="loadFolderBtn">Load Folder</button>
+            <p id="dirPath">No folder loaded yet</p>
+        </div>
+    </div>
+</div>
+<script type="text/javascript" src="js/index.js"></script>
+</body>
 </html>
