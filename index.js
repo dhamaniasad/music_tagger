@@ -60,6 +60,12 @@ $('#loadFolderBtn').on('click', function () {
         $('#dirPath').text('Scanning directory for MP3 files. Please wait...');
         function countUpdater (mp3Files) {
             $('#dirPath').text('Loaded directory ' + dir + ' with ' + mp3Files.length + ' MP3 files.');
+            identifier(mp3Files);
         }
     }
 });
+
+function identifier (mp3Files) {
+    $('.filenameContainer').css({'display': 'block'});
+    $('#fileName').text(mp3Files[0]);
+}

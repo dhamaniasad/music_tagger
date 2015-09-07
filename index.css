@@ -12,3 +12,7 @@ body {
     width: 150px;
     height: auto;
 }
+
+.filenameContainer {
+    display: none;
+}
