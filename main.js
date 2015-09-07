@@ -28,10 +28,6 @@ app.on('ready', function () {
 
     // and load the index.html of the app.
     mainWindow.loadUrl('file://' + __dirname + '/index.html');
-    function folderChooser () {
-        var dialog = require('dialog');
-        var dir = dialog.showOpenDialog(mainWindow, {properties: ['openDirectory']});
-    }
 
     // Emitted when the window is closed.
     mainWindow.on('closed', function () {
@@ -43,6 +39,9 @@ app.on('ready', function () {
 });
 
 ipc.on('synchronous-message', function(event, arg) {
-  console.log(arg);  // prints "ping"
-  event.returnValue = 'pong';
+  if (arg === "openFolderDialog") {
+        var dialog = require('dialog');
+        var dir = dialog.showOpenDialog(mainWindow, {properties: ['openDirectory']});
+        event.returnValue = dir;
+  }
 });

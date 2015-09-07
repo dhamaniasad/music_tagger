@@ -1,7 +1,6 @@
 var got = require('got');
 var walk = require('walk');
 var ipc = require('ipc');
-console.log(ipc.sendSync('synchronous-message', 'ping')); // prints "pong"
 // Due to Electron being a CommonJS environment, the thing below has to be done
 // (https://github.com/atom/electron/issues/254)
 window.$ = window.jQuery = require('./jquery.min.js');
@@ -44,4 +43,8 @@ function walkTree(path) {
         }
         console.log(mp3Files);
     });
+}
+
+function openFolderDialog () {
+    ipc.sendSync('synchronous-message', 'openFolderDialog');
 }
