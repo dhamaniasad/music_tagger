@@ -38,10 +38,15 @@ app.on('ready', function () {
     });
 });
 
-ipc.on('synchronous-message', function(event, arg) {
-  if (arg === "openFolderDialog") {
+ipc.on('synchronous-message', function (event, arg) {
+    if (arg === "openFolderDialog") {
         var dialog = require('dialog');
         var dir = dialog.showOpenDialog(mainWindow, {properties: ['openDirectory']});
-        event.returnValue = dir;
-  }
+        if (dir === undefined) {
+            event.returnValue = null;
+        }
+        else {
+            event.returnValue = dir;
+        }
+    }
 });

@@ -49,3 +49,7 @@ function walkTree(path) {
 function openFolderDialog () {
     ipc.sendSync('synchronous-message', 'openFolderDialog');
 }
+
+$('#loadFolderBtn').on('click', function () {
+   openFolderDialog()
+});
