@@ -25,7 +25,7 @@ function itunesFetch(data) {
 }
 
 // Walk the directory tree and look for .mp3 files
-function walkTree(path) {
+function walkTree(path, callback) {
     var files = [];
     var mp3Files = [];
 
@@ -42,14 +42,24 @@ function walkTree(path) {
                 mp3Files.push(files[i]);
             }
         }
-        console.log(mp3Files);
+        callback(mp3Files);
     });
 }
 
 function openFolderDialog () {
-    ipc.sendSync('synchronous-message', 'openFolderDialog');
+    return ipc.sendSync('synchronous-message', 'openFolderDialog');
 }
 
 $('#loadFolderBtn').on('click', function () {
-   openFolderDialog()
+   var dir = openFolderDialog();
+    if (dir === null) {
+
+    }
+    else {
+        var mp3Files = walkTree(dir.toString(), countUpdater);
+        $('#dirPath').text('Scanning directory for MP3 files. Please wait...');
+        function countUpdater (mp3Files) {
+            $('#dirPath').text('Loaded directory ' + dir + ' with ' + mp3Files.length + ' MP3 files.');
+        }
+    }
 });
