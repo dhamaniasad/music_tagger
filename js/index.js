@@ -5,6 +5,7 @@ var fs = require('fs');
 // Due to Electron being a CommonJS environment, the thing below has to be done
 // (https://github.com/atom/electron/issues/254)
 window.$ = window.jQuery = require('./js/jquery.min.js');
+var currentIndex = 0;
 
 $("#songForm").submit(function (event) {
     itunesFetch($('#songName').val());
@@ -68,8 +69,8 @@ $('#loadFolderBtn').on('click', function () {
 
 function identifier(mp3Files) {
     $('.filenameContainer').css({'display': 'block'});
-    $('#fileName').text(mp3Files[0]);
-    readMetadata(mp3Files[0], getMetadata);
+    $('#fileName').text(mp3Files[currentIndex]);
+    readMetadata(mp3Files[currentIndex], getMetadata);
     function getMetadata (metadata) {
         if (metadata === null) {
             console.log("OMG ERROR!1!!!1!")
@@ -91,3 +92,7 @@ function readMetadata(fileName, callback) {
         callback(metadata);
     });
 }
+
+$('#nextBtn').on('click', function () {
+    currentIndex += 1;
+});
