@@ -6,6 +6,8 @@ var fs = require('fs');
 // (https://github.com/atom/electron/issues/254)
 window.$ = window.jQuery = require('./js/jquery.min.js');
 var currentIndex = 0;
+var mp3s = null;
+var playSample = null;
 
 $("#songForm").submit(function (event) {
     itunesFetch($('#songName').val());
@@ -58,9 +60,10 @@ $('#loadFolderBtn').on('click', function () {
 
     }
     else {
-        var mp3Files = walkTree(dir.toString(), countUpdater);
+        walkTree(dir.toString(), countUpdater);
         $('#dirPath').text('Scanning directory for MP3 files. Please wait...');
         function countUpdater(mp3Files) {
+            mp3s = mp3Files;
             $('#dirPath').text('Loaded ' + dir + ' with ' + mp3Files.length + ' .mp3 files');
             identifier(mp3Files);
         }
@@ -70,15 +73,23 @@ $('#loadFolderBtn').on('click', function () {
 function identifier(mp3Files) {
     $('.filenameContainer').css({'display': 'block'});
     $('#fileName').text(mp3Files[currentIndex]);
+    newSample(mp3Files[currentIndex]);
     readMetadata(mp3Files[currentIndex], getMetadata);
     function getMetadata (metadata) {
         if (metadata === null) {
-            console.log("OMG ERROR!1!!!1!")
+            console.log("OMG ERROR!1!!!1!");
             $('#song').text('---');
             $('#genre').text('---');
             $('#album').text('---');
             $('#artist').text('---');
             $('#released').text('---');
+        }
+        else {
+            $('#song').text(metadata.title);
+            $('#genre').text(metadata.genre[0]);
+            $('#album').text(metadata.album);
+            $('#artist').text(metadata.artist[0]);
+            $('#released').text(metadata.year);
         }
     }
 }
@@ -94,5 +105,35 @@ function readMetadata(fileName, callback) {
 }
 
 $('#nextBtn').on('click', function () {
+    playSample.stop();
     currentIndex += 1;
+    identifier(mp3s);
+    $('#playBtn').text('Play Song');
+});
+
+function newSample (path) {
+ playSample = new Howl({
+  urls: [path],
+  autoplay: false,
+  loop: false,
+  onend: function() {
+  },
+    onplay: function () {
+        this.playing = true;
+    },
+    onpause: function () {
+        this.playing = false;
+    }
+});
+}
+
+$('#playBtn').on('click', function () {
+    if (playSample.playing === true) {
+        playSample.pause();
+        $(this).text('Play Song');
+    }
+    else if (playSample.playing === false || playSample.playing === undefined) {
+        playSample.play();
+        $(this).text('Pause Song');
+    }
 });
