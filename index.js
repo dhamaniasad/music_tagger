@@ -1,4 +1,5 @@
 var got = require('got');
+var walk = require('walk');
 window.$ = window.jQuery = require('./jquery.min.js');
 
 $("#songForm").submit(function (event) {
@@ -16,5 +17,27 @@ function itunesFetch(data) {
         $('#album').text((data.results[0].collectionName));
         $('#artist').text((data.results[0].artistName));
         $('#released').text((data.results[0].releaseDate));
+    });
+}
+
+// Walk the directory tree and look for .mp3 files
+function walkTree(path) {
+    var files = [];
+    var mp3Files = [];
+
+    var walker = walk.walk(path, {followLinks: false});
+
+    walker.on('file', function (root, stat, next) {
+        files.push(root + '/' + stat.name);
+        next();
+    });
+
+    walker.on('end', function () {
+        for (var i = 0; i < files.length; i++) {
+            if (/.mp3$/.test(files[i])) {
+                mp3Files.push(files[i]);
+            }
+        }
+        console.log(mp3Files);
     });
 }
