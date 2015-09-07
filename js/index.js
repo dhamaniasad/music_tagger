@@ -90,6 +90,9 @@ function identifier(mp3Files) {
             $('#album').text(metadata.album);
             $('#artist').text(metadata.artist[0]);
             $('#released').text(metadata.year);
+            var picture = metadata.picture[0];
+            var base64data = new Buffer(picture.data).toString('base64');
+            $('#artwork').attr('src', 'data:image/' + picture.format + ';base64,' + base64data);
         }
     }
 }
