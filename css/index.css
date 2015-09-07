@@ -2,6 +2,7 @@ body {
     background: -webkit-linear-gradient(90deg, #136a8a 10%, #267871 90%); /* Chrome 10+, Saf5.1+ */
     background:         linear-gradient(90deg, #136a8a 10%, #267871 90%); /* W3C */
     color: white;
+    padding-top: 30px;
 }
 
 #infoPanel {
@@ -15,4 +16,8 @@ body {
 
 .filenameContainer {
     display: none;
+}
+
+#dirPath {
+    display: inline-block;
 }

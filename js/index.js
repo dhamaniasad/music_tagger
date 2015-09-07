@@ -3,7 +3,7 @@ var walk = require('walk');
 var ipc = require('ipc');
 // Due to Electron being a CommonJS environment, the thing below has to be done
 // (https://github.com/atom/electron/issues/254)
-window.$ = window.jQuery = require('./jquery.min.js');
+window.$ = window.jQuery = require('./js/jquery.min.js');
 
 $("#songForm").submit(function (event) {
     itunesFetch($('#songName').val());
