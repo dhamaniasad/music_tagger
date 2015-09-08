@@ -191,3 +191,18 @@ function updateTags(currentIndex) {
         else console.log("Data written");
     });
 }
+
+$('#iTprevBtn').on('click', function () {
+    if (fetchedIndex < 1) {
+
+    }
+    else {
+        fetchedIndex -= 1;
+        updateFetchedDisplay();
+    }
+});
+
+$('#iTnextBtn').on('click', function () {
+        fetchedIndex += 1;
+        updateFetchedDisplay();
+});
