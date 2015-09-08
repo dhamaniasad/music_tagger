@@ -57,3 +57,8 @@ body {
     bottom: 80px;
     right: 15px;
 }
+
+#fetchedControlbtnp {
+    padding-top: 209px;
+    padding-right: 0;
+}

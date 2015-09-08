@@ -2,12 +2,15 @@ var got = require('got');
 var walk = require('walk');
 var ipc = require('ipc');
 var fs = require('fs');
+var ffmetadata = require("ffmetadata");
 // Due to Electron being a CommonJS environment, the thing below has to be done
 // (https://github.com/atom/electron/issues/254)
 window.$ = window.jQuery = require('./js/jquery.min.js');
 var currentIndex = 0;
 var mp3s = null;
 var playSample = null;
+var fetchedData = null;
+var fetchedIndex = 0;
 
 $("#songForm").submit(function (event) {
     itunesFetch($('#songName').val());
@@ -17,15 +20,21 @@ $("#songForm").submit(function (event) {
 
 function itunesFetch(data) {
     got('https://itunes.apple.com/search?term=' + data, {json: true}, function (err, data, res) {
-        var artworkUrl = data.results[0].artworkUrl100.replace('100x100', '150x150');
-        $('#fetched_artwork').attr('src', artworkUrl);
-        $('#fetched_song').text((data.results[0].trackName));
-        $('#fetched_genre').text((data.results[0].primaryGenreName));
-        $('#fetched_album').text((data.results[0].collectionName));
-        $('#fetched_artist').text((data.results[0].artistName));
-        var releaseDate = new Date(data.results[0].releaseDate);
-        $('#fetched_released').text(releaseDate.getFullYear());
+        fetchedData = data.results;
+        fetchedIndex = 0;
+        updateFetchedDisplay();
     });
+}
+
+function updateFetchedDisplay () {
+    var artworkUrl = fetchedData[fetchedIndex].artworkUrl100.replace('100x100', '150x150');
+        $('#fetched_artwork').attr('src', artworkUrl);
+        $('#fetched_song').text((fetchedData[fetchedIndex].trackName));
+        $('#fetched_genre').text((fetchedData[fetchedIndex].primaryGenreName));
+        $('#fetched_album').text((fetchedData[fetchedIndex].collectionName));
+        $('#fetched_artist').text((fetchedData[fetchedIndex].artistName));
+        var releaseDate = new Date(fetchedData[fetchedIndex].releaseDate);
+        $('#fetched_released').text(releaseDate.getFullYear());
 }
 
 // Walk the directory tree and look for .mp3 files
@@ -140,3 +149,21 @@ $('#playBtn').on('click', function () {
         $(this).text('Pause Song');
     }
 });
+
+$('#updtBtn').on('click', function () {
+    updateTags(currentIndex);
+});
+
+function updateTags(currentIndex) {
+    var data = {
+        artist: $('#fetched_artist').text(),
+        title: $('#fetched_song').text(),
+        album: $('#fetched_album').text(),
+        date: $('#fetched_released').text(),
+        genre: $('#fetched_genre').text()
+    };
+    ffmetadata.write(mp3s[currentIndex], data, function (err) {
+        if (err) console.error("Error writing metadata", err);
+        else console.log("Data written");
+    });
+}
