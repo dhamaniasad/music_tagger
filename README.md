@@ -7,6 +7,8 @@ Do you have a lot of music files with incorrect or no tags? Manually correcting 
 
 (Yes, the UI could use a bit of work)
 
+This app is built with Electron.
+
 ## Usage
 * First load the folder with your .mp3 files using the "Load Folder" button.
 * Once a song shows up in the current panel, type the name of the song in the "Song Name" field, and then wait for an image to show up in the fetched panel.
