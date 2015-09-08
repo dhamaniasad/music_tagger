@@ -11,6 +11,7 @@ var mp3s = null;
 var playSample = null;
 var fetchedData = null;
 var fetchedIndex = 0;
+var imageMap = {};
 
 $("#songForm").submit(function (event) {
     itunesFetch($('#songName').val());
@@ -26,15 +27,27 @@ function itunesFetch(data) {
     });
 }
 
-function updateFetchedDisplay () {
+function updateFetchedDisplay() {
     var artworkUrl = fetchedData[fetchedIndex].artworkUrl100.replace('100x100', '150x150');
-        $('#fetched_artwork').attr('src', artworkUrl);
-        $('#fetched_song').text((fetchedData[fetchedIndex].trackName));
-        $('#fetched_genre').text((fetchedData[fetchedIndex].primaryGenreName));
-        $('#fetched_album').text((fetchedData[fetchedIndex].collectionName));
-        $('#fetched_artist').text((fetchedData[fetchedIndex].artistName));
-        var releaseDate = new Date(fetchedData[fetchedIndex].releaseDate);
-        $('#fetched_released').text(releaseDate.getFullYear());
+    var tempDir = ipc.sendSync('synchronous-message', 'getTempDir');
+    console.log(tempDir);
+    var crypto = require('crypto');
+    crypto.randomBytes(16, function (ex, buf) {
+        var token = buf.toString('hex');
+        var fileName = tempDir + token + '.jpg';
+        got(artworkUrl, function (err, data, res) {
+            console.log(data);
+            fs.writeFileSync(fileName, data);
+            imageMap[artworkUrl] = tempDir + token + '.jpg';
+            $('#fetched_artwork').attr('src', imageMap[artworkUrl]);
+        });
+    });
+    $('#fetched_song').text((fetchedData[fetchedIndex].trackName));
+    $('#fetched_genre').text((fetchedData[fetchedIndex].primaryGenreName));
+    $('#fetched_album').text((fetchedData[fetchedIndex].collectionName));
+    $('#fetched_artist').text((fetchedData[fetchedIndex].artistName));
+    var releaseDate = new Date(fetchedData[fetchedIndex].releaseDate);
+    $('#fetched_released').text(releaseDate.getFullYear());
 }
 
 // Walk the directory tree and look for .mp3 files
@@ -84,7 +97,7 @@ function identifier(mp3Files) {
     $('#fileName').text(mp3Files[currentIndex]);
     newSample(mp3Files[currentIndex]);
     readMetadata(mp3Files[currentIndex], getMetadata);
-    function getMetadata (metadata) {
+    function getMetadata(metadata) {
         if (metadata === null) {
             console.log("OMG ERROR!1!!!1!");
             $('#song').text('---');
@@ -123,20 +136,20 @@ $('#nextBtn').on('click', function () {
     $('#playBtn').text('Play Song');
 });
 
-function newSample (path) {
- playSample = new Howl({
-  urls: [path],
-  autoplay: false,
-  loop: false,
-  onend: function() {
-  },
-    onplay: function () {
-        this.playing = true;
-    },
-    onpause: function () {
-        this.playing = false;
-    }
-});
+function newSample(path) {
+    playSample = new Howl({
+        urls: [path],
+        autoplay: false,
+        loop: false,
+        onend: function () {
+        },
+        onplay: function () {
+            this.playing = true;
+        },
+        onpause: function () {
+            this.playing = false;
+        }
+    });
 }
 
 $('#playBtn').on('click', function () {
@@ -156,6 +169,7 @@ $('#updtBtn').on('click', function () {
 
 function updateTags(currentIndex) {
     var data = {
+        attachments: [''],
         artist: $('#fetched_artist').text(),
         title: $('#fetched_song').text(),
         album: $('#fetched_album').text(),

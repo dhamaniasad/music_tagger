@@ -49,4 +49,7 @@ ipc.on('synchronous-message', function (event, arg) {
             event.returnValue = dir;
         }
     }
+    else if (arg === "getTempDir") {
+        event.returnValue = app.getPath('temp');
+    }
 });
