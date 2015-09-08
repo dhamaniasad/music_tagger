@@ -180,6 +180,7 @@ function updateTags(currentIndex) {
     };
     var data = {
         artist: $('#fetched_artist').text(),
+        album_artist: $('#fetched_artist').text(),
         title: $('#fetched_song').text(),
         album: $('#fetched_album').text(),
         date: $('#fetched_released').text(),
