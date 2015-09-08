@@ -2,6 +2,7 @@ var got = require('got');
 var walk = require('walk');
 var ipc = require('ipc');
 var fs = require('fs');
+var http=require('http');
 var ffmetadata = require("ffmetadata");
 // Due to Electron being a CommonJS environment, the thing below has to be done
 // (https://github.com/atom/electron/issues/254)
@@ -35,11 +36,16 @@ function updateFetchedDisplay() {
     crypto.randomBytes(16, function (ex, buf) {
         var token = buf.toString('hex');
         var fileName = tempDir + token + '.jpg';
-        got(artworkUrl, function (err, data, res) {
-            console.log(data);
-            fs.writeFileSync(fileName, data);
-            imageMap[artworkUrl] = tempDir + token + '.jpg';
-            $('#fetched_artwork').attr('src', imageMap[artworkUrl]);
+        var f = fs.createWriteStream(fileName);
+        imageMap[artworkUrl] = fileName;
+        http.get(artworkUrl, function(res){
+            res.on('data', function (chunk) {
+                f.write(chunk);
+            });
+            res.on('end',function(){
+                f.end();
+                $('#fetched_artwork').attr('src', imageMap[artworkUrl]);
+            });
         });
     });
     $('#fetched_song').text((fetchedData[fetchedIndex].trackName));
