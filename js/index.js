@@ -29,7 +29,7 @@ function itunesFetch(data) {
 }
 
 function updateFetchedDisplay() {
-    var artworkUrl = fetchedData[fetchedIndex].artworkUrl100.replace('100x100', '150x150');
+    var artworkUrl = fetchedData[fetchedIndex].artworkUrl100.replace('100x100', '250x250');
     var tempDir = ipc.sendSync('synchronous-message', 'getTempDir');
     console.log(tempDir);
     var crypto = require('crypto');
@@ -174,15 +174,18 @@ $('#updtBtn').on('click', function () {
 });
 
 function updateTags(currentIndex) {
+    var imageLocation = $('#fetched_artwork').attr('src');
+    var options = {
+        attachments: [imageLocation]
+    };
     var data = {
-        attachments: [''],
         artist: $('#fetched_artist').text(),
         title: $('#fetched_song').text(),
         album: $('#fetched_album').text(),
         date: $('#fetched_released').text(),
         genre: $('#fetched_genre').text()
     };
-    ffmetadata.write(mp3s[currentIndex], data, function (err) {
+    ffmetadata.write(mp3s[currentIndex], data, options, function (err) {
         if (err) console.error("Error writing metadata", err);
         else console.log("Data written");
     });
